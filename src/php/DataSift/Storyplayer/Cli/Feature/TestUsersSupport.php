@@ -85,6 +85,13 @@ class Feature_TestUsersSupport implements Feature
 
     public function initAfterModulesAvailable(StoryTeller $st, CliEngine $engine, Injectables $injectables)
     {
+
+        // make this switch backwards compatible. If no test users file is specified,
+        // generate a temporary file
+        if (strlen($engine->options->testUsersFile) < 1) {
+            $engine->options->testUsersFile = tempnam(sys_get_temp_dir(), 'StoryplayerUsersFile_');
+        }
+
         // shorthand
         $output = $injectables->output;
 
